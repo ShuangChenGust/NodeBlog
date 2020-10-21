@@ -20,7 +20,7 @@ app.get('/', (req, res)=>{
         createdAt: Date.now(),
         description: 'Test Description2'
     }]
-    res.render('index', { articles: 'articles' })
+    res.render('index', { articles: articles })
 })
 
 //set port
