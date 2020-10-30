@@ -3,8 +3,9 @@ const mongoose = require('mongoose')
 const articleRouter = require('./routes/articles')
 const app = express()
 
+mongoose.set('useCreateIndex', true)
 //connect to database
-mongoose.connect('mongodb://localhost/blog', {
+mongoose.connect('mongodb://localhost:27017/blog', {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 
