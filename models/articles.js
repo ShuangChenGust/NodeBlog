@@ -2,10 +2,9 @@
 const mongoose = require('mongoose')
 const marked = require('marked')
 const slugify = require('slugify')
-// const createDomPurify = require('dompurify')
-// const { JSDOM } = require('jsdom')
-// const dompurify = createDomPurify(new JSDOM().window)
-
+const createDomPurify = require('dompurify')
+const { JSDOM } = require('jsdom')
+const dompurify = createDomPurify(new JSDOM().window)
 
 ///marked and sluggify is used to modify the url slug
 const articleSchema = new mongoose.Schema({
@@ -28,11 +27,11 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  sanitizedHtml: {
+    type: String,
+    required: true
   }
-  // sanitizedHtml: {
-  //   type: String,
-  //   required: true
-  // }
 })
 
 articleSchema.pre('validate', function(next) {
@@ -40,9 +39,9 @@ articleSchema.pre('validate', function(next) {
     this.slug = slugify(this.title, { lower: true, strict: true })
   }
 
-  // if (this.markdown) {
-  //   this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
-  // }
+  if (this.markdown) {
+    this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
+  }
 
   next()
 })
